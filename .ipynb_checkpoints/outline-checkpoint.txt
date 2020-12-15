@@ -1,0 +1,8 @@
+Participants make a valuation
+participants are given a lottery number
+experimenter hold while rolling, then entering lottery results
+participants receive a payment based on the roll
+
+
+Player 1 is the experimenter
+Player 1 makes no choice except to enter the lottery values

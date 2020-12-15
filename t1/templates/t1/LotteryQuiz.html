@@ -1,0 +1,34 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'global/matrix.css' %}" />
+
+<style>
+    .highlight-row-on-hover:hover td {
+        background-color: #fcf8e3;
+    }
+    .red {background-color: #f66666;}
+        
+</style>
+{% endblock %}
+
+{% block content %}
+<div style="text-align: center">
+    <p> Please answer the following questions about the lottery. </p>
+    <p> You must answer both questions correctly before proceeding to the next page. </p>
+    <br>
+    <div style="border: 2px solid black; background-color: lightgrey;">
+        <br>
+        <p> Suppose 2 of your numbers are drawn from the cage. </p>
+        <p> Enter the ammount of money you would earn that round. </p>
+        <p> ____ </p>
+        <br>
+        <p> How many numbers do you need to match with the ones drawn from the cage to win $2.50?</p>
+        <p> _____ </p>
+        <br>
+        {% next_button %}
+    </div>
+</div>
+<p> Need to add entry boxes and make the button say confirm </p>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Questionnaire
+{% endblock %}
+
+{% block content %}
+<div class="card well well-lg instructions">
+<center>
+    <p>In Part II, when you could choose Take or Not Take from A. What was your thought process?</p>
+</center>
+
+    {% for field in form %}
+        {% formfield field %}
+    {% endfor %}
+{% next_button %}
+</div>
+
+{% endblock %}

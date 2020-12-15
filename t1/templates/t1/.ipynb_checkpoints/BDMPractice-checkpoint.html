@@ -1,0 +1,109 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'global/matrix.css' %}" />
+
+<style>
+.highlight-row-on-hover:hover td {
+    background-color: #fcf8e3;
+}
+.red {background-color: #f66666;}
+
+.slidecontainer {
+    width: 100%; /* Width of the outside container */
+}
+
+/* The slider itself */
+.slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 100%; /* Full-width */
+    height: 25px; /* Specified height */
+    background: #d3d3d3; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #000000; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #000000; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+<div> 
+
+<div style="text-align: center">
+    <p> You have 2 minutes to try out the valuation choice mechanism. </p>
+    <p> Click on the white box to select your value. </p>
+    <p> Click on the "New Offer" button to get a new random offer and see whether you would have entered the lottery or not. </p>
+    <p> Note: You will not see your offer before making your choice during the experiment. </p>
+</div>
+
+<div class="slidecontainer">
+    <input type="range" min="0" max="1" step="0.01" value="0.5" class="slider" id="myRange">
+</div>
+
+<div style="text-align: right">
+    <table>
+        <tr>
+            <td>You enter the lottery if the offer is less than or equal to:</td>
+            <td> <b style="color:green">$<span id="value_l"></span></b> </td>
+        </tr>
+        <tr>
+            <td>You accept any offer greater than or equal to:</td>
+            <td> <b style="color:blue">$<span id="value_u"></span></b> </td>
+            <td>     {% next_button %} </td>
+        </tr>
+    </table>
+</div>
+<div style="text-align: center">
+    <p> Your offer is ____; therefore you would have ___ the offer. </p>
+</div>
+    
+This can all be done with javascript. I need to add a second point on the slider to show the offer. Then I need to include a binary function whether the offer is accepted based on the value. Then I need a new offer button. And I need a way to decide the edges.
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+var slider = document.getElementById("myRange");
+var output_l = document.getElementById("value_l");
+output_l.innerHTML = slider.value; // Display the default slider value
+var output_u = document.getElementById("value_u");
+output_u.innerHTML = slider.value; // Display the default slider value
+
+// This still needs: 1) invisible initialization, 2) rounding, 3) edges
+
+// Update the current slider value (each time you drag the slider handle)
+slider.oninput = function() {
+  output_l.innerHTML = this.value;
+  output_u.innerHTML = this.value;
+}
+
+</script>
+{% endblock %}

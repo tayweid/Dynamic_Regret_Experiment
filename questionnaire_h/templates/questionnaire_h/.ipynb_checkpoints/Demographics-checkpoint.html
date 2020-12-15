@@ -1,0 +1,20 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Questionnaire
+{% endblock %}
+
+{% block content %}
+
+<p><b> Please answer the following questions. </b></p>
+
+    {% for field in form %}
+        <div class="card well well-lg instructions">
+            {% formfield field %}
+        </div>
+    {% endfor %}
+
+    {% next_button %}
+
+{% endblock %}

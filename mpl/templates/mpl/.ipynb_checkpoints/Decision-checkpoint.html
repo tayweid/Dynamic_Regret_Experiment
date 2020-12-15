@@ -1,0 +1,108 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+{% block styles %}
+    <link href="{% static 'mpl/css/custom.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function () {
+        $('input[type=radio]').change(
+            function () {
+                var clickedRadio = this;
+                var afterClickedRadio = false;
+                var radios = document.querySelectorAll('input[type=radio]');
+
+                for (i = 0; i < radios.length; ++i) {
+                    var radio = radios[i];
+                    if (radio === clickedRadio) {
+                        afterClickedRadio = true;
+                        continue;
+                    }
+                    if (!afterClickedRadio && clickedRadio.value === 'Lottery' && radio.value === 'Lottery') {
+                        radio.checked = true;
+                    }
+                    if (afterClickedRadio && clickedRadio.value === 'Offer' && radio.value === 'Offer') {
+                        radio.checked = true;
+                    }
+                }
+            }
+        );
+    });
+function change() // no ';' here
+{
+    if (document.getElementById("coinTossChoice").value=="Odd") {
+        document.getElementById("coinTossChoice").value = "Even";
+        document.getElementById("confirmButton").value = "Even";
+    } else {
+        document.getElementById("coinTossChoice").value = "Odd";
+        document.getElementById("confirmButton").value = "Odd";
+    }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div style="text-align:center">
+    <p> Please indicate, for every offer, whether you prefer to earn the money offered or to earn $10 if you guess correctly whether the number drawn is odd or even. </p>
+    <p> The lottery roll that will determine the winning color will be rolled at the end of the experiment. </p>
+    <div class="card" style="float:left; width:70%;">
+        <table class="table table-striped">
+            <thead>
+            <tr class="header">
+                <th></th>
+                <th>Lottery</th>
+                <th></th>
+                <th>Offer</th>
+                <th></th>
+                <th>Choice</th>
+            </tr>
+            </thead>
+
+            <tbody style="font-size: 14px">
+            {% for q,o,f in choices %}
+            <tr style="height:30px">
+                <!-- A lotteries -->
+                <td> Q#{{ q }} </td>
+                <td> $10 with with 50% probability </td>
+                <td> or </td>
+                <td> {{ o }} with certainty </td>
+                <td> ? </td>
+
+                <!-- radio select form fields -->
+                <td class="formfield">
+                    Lottery 
+                    <input type="radio" name="{{ f }}" value="Lottery" required>
+                    <input type="radio" name="{{ f }}" value="Offer" required>
+                    Offer
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div style="float:right; width:25%;">
+        <br>
+        <br>
+        <br>
+        <br>
+        <div style="height:200px; padding: 50px;">
+            <p> Click the box below to change your guess </p>
+            <input class="formfield btn btn-primary" style="border-color:black; background-color:black" onclick="change()" type="button" value="Odd" id="coinTossChoice"></input>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div style="height:400px; padding: 50px;">
+            <button id="confirmButton" class="btn btn-primary" name="coinToss"  value="Odd" style="border-color:red; background-color:red"> Confirm Selection</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

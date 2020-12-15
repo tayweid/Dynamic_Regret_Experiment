@@ -1,0 +1,237 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'global/matrix.css' %}" />
+
+<style>
+
+body{
+  min-height: 100vh;
+  padding: 0 10vh;
+  margin: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.range-wrap{  /* Width of the outside container */
+  width: 100%;
+  position: relative;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  background-color: #fff;
+  margin: 20px 0;
+  width: 100%;
+}
+    
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: #404040;
+  border-radius: 25px;
+}
+input[type=range]::-webkit-slider-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #008000;
+  box-shadow: 0 0 4px 0 rgba(0,0,0, 1);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -8px;
+}
+input[type=range]:focus::-webkit-slider-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #008000;
+  box-shadow: 0 0 4px 0 rgba(0,0,0, 1);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -8px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #404040;
+}
+
+.range-value{
+  position: absolute;
+  top: -50%;
+}
+.range-value span{
+  width: 90px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  background: #008000;
+  color: #fff;
+  font-size: 16px;
+  display: block;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border-radius: 6px;
+}
+.range-value span:before{
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 10px solid #008000;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  margin-top: -1px;
+}
+
+
+.range_offer{
+  position: absolute;
+  top: -50%;
+}
+.range_offer span{
+  width: 90px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  background: #0000FF;
+  color: #fff;
+  font-size: 16px;
+  display: block;
+  position: absolute;
+  bottom: 200%;
+  left: 100%;
+  transform: translate(-50%, 0);
+  border-radius: 6px;
+}
+.range_offer span:before{
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 40px solid #0000FF;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 10px solid transparent;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  margin-top: -1px;
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+<div class="card bg-light" style="padding: 50px;"> 
+
+<div style="text-align: center">
+    <p> You have 2 minutes to try out the valuation choice mechanism. </p>
+    <p> Click on the white box to select your value. </p>
+    <p> Click on the <b>"New Offer"</b> button to get a new random offer and see whether you would have entered the lottery or not. </p>
+    <p> Note: You will not see your offer before making your choice during the experiment. </p>
+</div>
+<br><br>
+<div class="range-wrap">
+    <div class="range_offer" id="rangeO"></div>
+    <div class="range-value" id="rangeV"></div>
+    <input id="range" type="range" min="0" max="1" value="0" step="0.01">
+</div>
+<br>
+<div>
+    <div style="text-align:right; float:left; width:80%;">
+        <table>
+          <tr id="enter_lottery">
+            <td>You enter the lottery if the offer is less than or equal to:</td>
+            <td> <b style="color:green">$<span id="value_l"></span></b> </td>
+          </tr>
+          <tr id="accept_offer">
+            <td>You accept any offer greater than or equal to:</td>
+            <td> <b style="color:blue">$<span id="value_u"></span></b> </td>
+          </tr>
+        </table>
+    </div>
+    <div style="float:right; width:20%; padding: 10px;">
+        <input onclick="updateNewOffer()" id="newOfferButton" class="formfield btn btn-primary" style="border-color:#404040; background-color:#404040" value="New Offer" type="button"> </input>
+    </div>
+</div>
+<br>
+<div style="text-align: center">
+    <p> Your offer is <b>$<span id="offer_val"></span></b>; therefore you would have <span id="accepted_offer"></span>. </p>
+</div>
+{% next_button %}
+
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+
+// Update the current slider value (each time you drag the slider handle)
+var slider = document.getElementById("range");
+var output_l = document.getElementById("value_l");
+output_l.innerHTML = slider.value; // Display the default slider value
+var output_u = document.getElementById("value_u");
+output_u.innerHTML = slider.value; // Display the default slider value
+slider.oninput = function() {
+  output_l.innerHTML = Number(this.value).toFixed(2);
+  var val_u = Number(+this.value + +0.01).toFixed(2); //Needs an edge condition
+  output_u.innerHTML = val_u;
+  //var enter_lottery = document.getElementById("enter_lottery");
+  //if (this.value == 0) {
+  //    "There is no offer that "
+  //}
+  //var accept_offer = document.getElementById("accept_offer");
+};
+
+// Choice
+var range = document.getElementById('range');
+var range_alt = document.getElementById('range_alt');
+var rangeV = document.getElementById('rangeV');
+var rangeO = document.getElementById("rangeO");
+
+function setValue () {
+    var newValue = Number( (range.value - range.min) * 100 / (range.max - range.min) ).toFixed(2);
+    var newPosition = 10 - (newValue * 0.2);
+    rangeV.value = range.value
+    rangeV.innerHTML = `<span>Value: $${range.value}</span>`;
+    rangeV.style.left = `calc(${newValue}% + (${newPosition}px))`;
+  };
+document.addEventListener("DOMContentLoaded", setValue);
+range.addEventListener('input', setValue);
+
+function updateNewOffer () {
+    var newOffer = Math.random().toFixed(2);
+    var newOfferValue = Number( (newOffer - range.min) * 100 / (range.max - range.min) );
+    var newOfferPosition = 10 - (newOfferValue * 0.2);
+    rangeO.value = newOffer
+    rangeO.innerHTML = `<span>Offer: $${newOffer}</span>`;
+    rangeO.style.left = `calc(${newOfferValue}% + (${newOfferPosition}px))`;
+    document.getElementById("offer_val").innerHTML = newOffer;
+    lottery_offer()
+  };
+document.addEventListener("DOMContentLoaded", updateNewOffer);
+
+
+// Lottery or Offer
+function lottery_offer () {
+    if (Number(range.value) > Number(rangeO.value)) {
+        document.getElementById("accepted_offer").innerHTML = '<b style="color:green">entered</b> the <b>lottery</b>';
+    } else {
+        document.getElementById("accepted_offer").innerHTML = '<b style="color:blue">accepted</b> the <b>offer</b>';
+    }
+}
+document.addEventListener("DOMContentLoaded", lottery_offer);
+range.addEventListener('input', lottery_offer);
+</script>
+{% endblock %}

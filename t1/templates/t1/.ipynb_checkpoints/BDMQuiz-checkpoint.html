@@ -1,0 +1,36 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'global/matrix.css' %}" />
+
+    <style>
+        .highlight-row-on-hover:hover td {
+            background-color: #fcf8e3;
+        }
+        .red {background-color: #f66666;}
+        
+
+    </style>
+
+{% endblock %}
+
+{% block content %}
+
+<div style="text-align: center">
+    <p> Please answer the following questions about the valuation mechanism. </p>
+    <p> You must answer both questions correctly before proceeding to the next page. </p>
+    <br>
+    <div style="border: 2px solid black; background-color: lightgrey;">
+        <br>
+        <p> Suppose you selected a value of $0.55. </p>
+        <br>
+        <p> Enter an offer $X that would lead you to enter the lottery: _____ </p>
+        <p> Enter an offer $X that would lead you to accept the offer: _____ </p>
+        <br>
+        {% next_button %}
+    </div>
+</div>
+<p> Need to add entry boxes and make the button say confirm </p>
+
+{% endblock %}

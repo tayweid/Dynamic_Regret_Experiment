@@ -1,0 +1,40 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Thank you for participating in this study!
+{% endblock %}
+
+{% block content %}
+
+<div class="card well well-lg instructions">
+
+<style>
+div.a {text-indent: 50px;}
+</style>
+
+<h5> Completion Payment </h5>
+<div class="a">
+    <p>Your completion payment is <b>{{ fixed_payment }}</b>.</p>
+</div>
+
+<h5>Questionnaire</h5>
+<div class="a">
+    <p> The computer randomly selected row {{ random_selection }} of the lottery choice table for payment. </p>
+    <p> <i> Option A</i> awarded either {{ lottery_hi }} or {{ lottery_lo }}, with a {{ prob }}% chance of winning {{ lottery_hi }}. </p>
+    <p><i>Option B</i> awarded {{ sure_thing }}. </p>
+    <p> You chose <i> Option {{ selected_choice }} </i>. Your payoff from the lottery choice is <b>{{ lottery_payoff }}</b>. </p>
+</div>
+<p> Your current total payment is <b> {{ earnings_total }} </b>. </p>
+
+<h5> Bonus Payment </h5>
+<div class="a">
+    <p> After everyone has completed the study, the computer will look up the choices of participant B in each pair to
+        determine the combined earnings from Part I and Part II that will then be paid as a bonus payment within the next days. </p>
+</div>
+
+<h5> Survey Code </h5>
+    <div class="a"> <p> Your survey code is <b>{{ survey_code }}</b>. </p> </div>
+</div>
+
+{% endblock %}

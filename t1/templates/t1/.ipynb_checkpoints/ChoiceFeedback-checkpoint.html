@@ -1,0 +1,266 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'global/matrix.css' %}" />
+
+<style>
+
+body{
+  min-height: 100vh;
+  padding: 0 10vh;
+  margin: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.range-wrap{  /* Width of the outside container */
+  width: 100%;
+  position: relative;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  background-color: #fff;
+  margin: 20px 0;
+  width: 100%;
+}
+
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  background: #404040;
+  border-radius: 25px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #404040;
+}
+
+.range-value{
+  position: absolute;
+  top: -50%;
+}
+.range-value span{
+  width: 90px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  background: #008000;
+  color: #fff;
+  font-size: 14px;
+  display: block;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border-radius: 6px;
+}
+.range-value span:before{
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 20px solid #008000;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  margin-top: -1px;
+}
+
+.range_offer{
+  position: absolute;
+  top: -50%;
+}
+.range_offer span{
+  width: 90px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  background: #0000FF;
+  color: #fff;
+  font-size: 14px;
+  display: block;
+  position: absolute;
+  bottom: 200%;
+  left: 100%;
+  transform: translate(-50%, 0);
+  border-radius: 6px;
+}
+.range_offer span:before{
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 40px solid #0000FF;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 10px solid transparent;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  margin-top: -1px;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 0;
+  height: 0;
+}
+    
+.circle {
+  height: 50px;
+  width: 50px;
+  background-color: #fff;
+  border: 2px solid black;
+  border-radius: 50%;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<p style="text-align:left;">
+    Period <b>{{ round_num }}</b> out of <b>{{ Constants.num_rounds}}</b>
+    <span style="float:right;">
+        Remaining Time: <b id="demo"></b>
+    </span>
+</p>
+<div style="text-align: center" class="card bg-light">
+    <br>
+    <div align="center">
+        <td> Your offer is: <b><span id="offerValStart"></span></b>.</td><br>
+        <td> You have chosen to <span id="accept_enter"></span>.</td>
+    </div>
+    <br>
+</div>
+<br>
+<div style="float:left; width:61%; height: 300px" class="card bg-light">
+<br><br><br><br>
+<div align="center">
+<div class="range-wrap" style="width:80%">
+    <div class="range_offer" id="rangeO"></div>
+    <div class="range-value" id="rangeV"></div>
+    <input id="range" type="range" min="0" max="1" value="0" step="0.01">
+</div>
+</div>
+    <div align="center" style="font-size:14px">
+        <table>
+            <tr id="enter_lottery">
+                <td style="text-align: right">You enter the lottery if the offer is less than or equal to:</td>
+                <td> <b style="color:green"><span id="value_l"></span></b> </td>
+            </tr>
+            <tr id="accept_offer">
+                <td style="text-align: right">You accept any offer greater than or equal to:</td>
+                <td> <b style="color:blue"><span id="value_u"></span></b> </td>
+            </tr>
+        </table>
+        <br>
+        <td align="center"> The number rolled in the die that determined your offer was <b>{{die_rolled}}</b> </td> <br>
+        <td align="center"> Your offer is therefore <b><span id="offerValEnd"></span></b> </td>
+    </div>
+    <br>
+</div>
+<div id="entered" align="center" style="float:right; width:35%; height: 300px; display:none" class="card bg-light">
+    <br>
+    <p> Your numbers for the lottery are: </p>
+    <br>
+    <div style="float:center; width:70%">
+        <div class="circle" style="font-size:28px; float:left;" id="lNumber1"></div>
+        <div class="circle" style="font-size:28px; float:right;" id="lNumber3"></div>
+        <div class="circle" style="font-size:28px; float:center;" id="lNumber2"></div>
+    </div>
+    <br>
+    <div align="center" style="font-size:14px">
+        <td> 3 matching numbers win <b style="color:red">$250</b> </td> <br>
+        <td> 2 matching numbers win <b style="color:#C70039">$25</b> </td> <br>
+        <td> 1 matching number wins <b style="color:#900C3F">$2.50</b> </td>
+    </div>
+    <br>
+</div>
+<div id="accepted" align="center" style="float:right; width:35%; height: 300px; display:none" class="card bg-light">
+    <br><br>
+    <p> You accepted the offer of:</p>
+    <p style="font-size:30px"><b>{{offer}}</b></p>
+    <br>
+    <p> You have not been assigned a lottery ticket this round. </p>
+    <br>
+</div>
+<div align="center" style="width:100%">
+    <br><br>
+    <button id="value_button" class="btn btn-primary" style="border-color:red; background-color:red;">Next</button>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    
+var lotteryNumber1 = document.getElementById("lNumber1")
+lNumber1.innerHTML = "{{lNumber1}}"
+var lotteryNumber1 = document.getElementById("lNumber2")
+lNumber2.innerHTML = "{{lNumber2}}"
+var lotteryNumber1 = document.getElementById("lNumber3")
+lNumber3.innerHTML = "{{lNumber3}}"
+
+// Include Value and Offer
+var output_l = document.getElementById("value_l");
+output_l.innerHTML = "{{value}}";
+var output_u = document.getElementById("value_u");
+if ("{{value}}" == 0) {
+    output_u.innerHTML = 0.01.toFixed(2);
+} else {
+    output_u.innerHTML = "$"+(Number("{{value}}".replace(/[^0-9.-]+/g,""))+ +0.01).toFixed(2);
+}
+    
+var offerValStart = document.getElementById("offerValStart");
+offerValStart.innerHTML = "{{offer}}";
+var offerValEnd = document.getElementById("offerValEnd");
+offerValEnd.innerHTML = "{{offer}}";
+
+var range = document.getElementById("range");
+range.value = Number("{{value}}".replace(/[^0-9.-]+/g,""));
+
+var rangeV = document.getElementById('rangeV');
+var newValue = (Number("{{value}}".replace(/[^0-9.-]+/g,"")) * 100).toFixed(2);
+var newPosition = 10 - (newValue * 0.2);
+rangeV.innerHTML = `<span>Value: {{value}}</span>`;
+rangeV.style.left = `calc(${newValue}% + (${newPosition}px))`;
+
+var rangeO = document.getElementById('rangeO');
+var newValue = (Number("{{offer}}".replace(/[^0-9.-]+/g,"")) * 100).toFixed(2);
+var newPosition = 10 - (newValue * 0.2);
+rangeO.innerHTML = `<span>Offer: {{offer}}</span>`;
+rangeO.style.left = `calc(${newValue}% + (${newPosition}px))`;
+
+// Lottery or Offer
+function lottery_offer () {
+    if ("{{offer}}"<="{{value}}") {
+        document.getElementById("accept_enter").innerHTML = '<b style="color:green">enter</b> the <b>lottery</b>';
+        document.getElementById("entered").style.display = "block";
+    } else {
+        document.getElementById("accept_enter").innerHTML = '<b style="color:blue">not enter</b> the <b>lottery</b>';
+        document.getElementById("accepted").style.display = "block";
+    }
+}
+document.addEventListener("DOMContentLoaded", lottery_offer);
+    
+// Update the count down every 1/2 second
+var end = new Date().getTime()+65000;
+var x = setInterval(function() {
+
+  var now = new Date().getTime(); // Get today's date and time
+  var distance = end - now; // Find the distance between now and the count down date
+  var seconds = Math.floor((distance / 1000)); // Time calculations for days, hours, minutes and seconds
+  document.getElementById("demo").innerHTML = seconds + "s "; // Output the result in an element with id="demo"
+    
+  // If the count down is over, write some text 
+  if (distance <= 1) {
+    clearInterval(x);
+    document.getElementById("value_button").click();
+  }
+}, 200);
+</script>
+{% endblock %}

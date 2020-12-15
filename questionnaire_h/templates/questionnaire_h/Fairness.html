@@ -1,0 +1,36 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Questionnaire
+{% endblock %}
+
+{% block content %}
+
+<div class="card well well-lg instructions">
+    <p><b> How fair is it for B to take money from A? </b></p>
+<table style="width:100%">
+    <tr>
+        {% for o in options %}
+            <th style="font-size:75%" align="center" width="9.3%"> {{ o }} </th>
+        {% endfor %}
+    </tr>
+    <tr align="center" class="formfield">
+        <td><input type="radio" name="{{ fairness }}" value="1" required></td>
+        <td><input type="radio" name="{{ fairness }}" value="2" required></td>
+        <td><input type="radio" name="{{ fairness }}" value="3" required></td>
+        <td><input type="radio" name="{{ fairness }}" value="4" required></td>
+        <td><input type="radio" name="{{ fairness }}" value="5" required></td>
+        <td><input type="radio" name="{{ fairness }}" value="6" required></td>
+        <td><input type="radio" name="{{ fairness }}" value="7" required></td>
+        <td><input type="radio" name="{{ fairness }}" value="8" required></td>
+        <td><input type="radio" name="{{ fairness }}" value="9" required></td>
+        <td><input type="radio" name="{{ fairness }}" value="10" required></td>
+        <td><input type="radio" name="{{ fairness }}" value="11" required></td>
+    </tr>
+</table>
+</div>
+<center style="margin-top:2.55cm;"> {% next_button %} </center>
+
+
+{% endblock %}

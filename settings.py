@@ -10,15 +10,9 @@ SESSION_CONFIG_DEFAULTS = {
 SESSION_CONFIGS = [
     {
         'name':'treatment_1',
-        'display_name':'Treatment 1 - Groups of 2',
+        'display_name':'Treatment 1',
         'num_demo_participants': 2,
-        'app_sequence': ['type_1_p1','type_1_p2','payment_info'],
-    },
-    {
-        'name':'treatment_2',
-        'display_name':'Treatment 2 - Groups of 4',
-        'num_demo_participants': 4,
-        'app_sequence': ['type_2_p1','type_2_p2','payment_info'],
+        'app_sequence': ['mpl','training','t1','payment_info'],
     },
 ]
 

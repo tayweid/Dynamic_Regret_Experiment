@@ -1,0 +1,298 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static 'global/matrix.css' %}" />
+
+<style>
+
+body{
+  min-height: 100vh;
+  padding: 0 10vh;
+  margin: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.range-wrap{  /* Width of the outside container */
+  width: 100%;
+  position: relative;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  background-color: #fff;
+  margin: 20px 0;
+  width: 100%;
+}
+
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  background: #404040;
+  border-radius: 25px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #404040;
+}
+
+.range-value{
+  position: absolute;
+  top: -50%;
+}
+.range-value span{
+  width: 90px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  background: #008000;
+  color: #fff;
+  font-size: 14px;
+  display: block;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border-radius: 6px;
+}
+.range-value span:before{
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 20px solid #008000;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  margin-top: -1px;
+}
+
+.range_offer{
+  position: absolute;
+  top: -50%;
+}
+.range_offer span{
+  width: 90px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  background: #0000FF;
+  color: #fff;
+  font-size: 14px;
+  display: block;
+  position: absolute;
+  bottom: 200%;
+  left: 100%;
+  transform: translate(-50%, 0);
+  border-radius: 6px;
+}
+.range_offer span:before{
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 40px solid #0000FF;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 10px solid transparent;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  margin-top: -1px;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 0;
+  height: 0;
+}
+    
+.circle {
+  height: 50px;
+  width: 50px;
+  background-color: #fff;
+  border: 2px solid black;
+  border-radius: 50%;
+}
+.smallCircle {
+  height: 35px;
+  width: 35px;
+  background-color: #fff;
+  border: 2px solid black;
+  border-radius: 50%;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<p style="text-align:left;">
+    Period <b>{{ round_num }}</b> out of <b>{{ Constants.num_rounds}}</b>
+    <span style="float:right;">
+        Remaining Time: <b id="demo"></b>
+    </span>
+</p>
+<div style="text-align: center" class="card bg-light">
+    <br>
+    <div align="center">
+        <td> Your offer was: <b><span id="offerValStart"></span></b>.</td><br>
+        <td> You <span id="accept_enter"></span>.</td>
+    </div>
+    <br>
+</div>
+<br>
+
+<!-- Card -->
+<div align="right" style="float:left; width:40%; height: 300px" class="card bg-light">
+    <div align="center">
+        <br>
+        <p style="font-size:18px"> The winning numbers are: </p>
+        <br>
+    </div>
+    <div align="center" style="font-size:14px">
+        <div style="float:left; width:40%">
+            <div class="circle" style="font-size:28px" id="wNumber1"></div>
+            <div class="circle" style="font-size:28px" id="wNumber3"></div>
+            <div class="circle" style="font-size:28px" id="wNumber2"></div>
+        </div>
+        <div align="center" style="float:right; width:55%; padding-top: 30px; padding-right: 10px;">
+            <td><b style="color:black">0 Matches wins $0</b></td> <br>
+            <td><b style="color:#900C3F">1 Match wins $2.50</b></td> <br>
+            <td><b style="color:#C70039">2 Matches wins $25</b></td> <br>
+            <td><b style="color:red">3 Matches wins $250</b></td> <br>
+        </div>
+    </div>
+</div>
+
+<!-- Card -->
+<div id="entered" align="center" style="float:right; width:55%; height: 300px; display:none" class="card bg-light">
+    <br>
+    <p style="font-size:18px"> Your numbers are: </p>
+    <table align="center">
+        <tr>
+            <td id="match1C" style="text-align: center"><div class="smallCircle" style="font-size:20px; float:left;" id="lNumber1"></div></td>
+            <td id="match1"></td>
+        </tr>
+        <tr>
+            <td id="match2C" style="text-align: center"><div class="smallCircle" style="font-size:20px; float:left;" id="lNumber2"></div></td>
+            <td id="match2"></td>
+        </tr>
+        <tr>
+            <td id="match3C" style="text-align: center"><div class="smallCircle" style="font-size:20px; float:left;" id="lNumber3"></div></td>
+            <td id="match3"></td>
+        </tr>
+    </table>
+    <br>
+    <table align="center">
+        <tr>You {{prize}} a prize.</tr>
+        <tr>
+            <td style="text-align: right">Your earnings this round are: </td>
+            <td><b>{{roundEarnings}}</b></td>
+        </tr>
+        <tr>
+            <td style="text-align: right">Your accumulated earnings are: </td>
+            <td><b>{{totalEarnings}}</b></td>
+        </tr>
+    </table>
+</div>
+
+<!-- Card -->
+<div id="accepted" align="center" style="float:right; width:55%; height: 300px; display:none" class="card bg-light">
+    <br>
+    <p style="font-size:18px"> You accepted the offer. </p>
+    <br><br><br>
+    <table align="center">
+        <tr>
+            <td style="text-align: right">Your earnings this round are: </td>
+            <td><b>{{roundEarnings}}</b></td>
+        </tr>
+        <tr>
+            <td style="text-align: right">Your accumulated earnings are: </td>
+            <td><b>{{totalEarnings}}</b></td>
+        </tr>
+    </table>
+</div>
+
+<div align="center" style="width:100%">
+    <button id="value_button" class="btn btn-primary" style="border-color:red; background-color:red;">Next</button>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    
+// Lottery or Offer
+var lotteryNumber1 = document.getElementById("lNumber1")
+lNumber1.innerHTML = "{{lNumber1}}"
+var lotteryNumber1 = document.getElementById("lNumber2")
+lNumber2.innerHTML = "{{lNumber2}}"
+var lotteryNumber1 = document.getElementById("lNumber3")
+lNumber3.innerHTML = "{{lNumber3}}"
+    
+var wNumber1 = document.getElementById("wNumber1")
+wNumber1.innerHTML = "{{wNumber1}}"
+var wNumber2 = document.getElementById("wNumber2")
+wNumber2.innerHTML = "{{wNumber2}}"
+var wNumber3 = document.getElementById("wNumber3")
+wNumber3.innerHTML = "{{wNumber3}}"
+
+
+// Include Value and Offer  
+var offerValStart = document.getElementById("offerValStart");
+offerValStart.innerHTML = "{{offer}}";
+
+
+// Lottery or Offer
+function lottery_offer () {
+    if ("{{offer}}"<="{{value}}") {
+        document.getElementById("accept_enter").innerHTML = '<b style="color:green">entered</b> the <b>lottery</b>';
+        document.getElementById("entered").style.display = "block";
+    } else {
+        document.getElementById("accept_enter").innerHTML = 'did <b style="color:blue">not enter</b> the <b>lottery</b>';
+        document.getElementById("accepted").style.display = "block";
+    }
+}
+document.addEventListener("DOMContentLoaded", lottery_offer);
+
+    
+// Prizes and Matches
+if ("{{mNumber1}}" == "MATCH") {
+    document.getElementById("match1").innerHTML = '<b style="color:red">{{mNumber1}}</b>';
+    document.getElementById("match1C").style.color = 'red';
+} else {
+    document.getElementById("match1").innerHTML = '<b>{{mNumber1}}</b>';
+}
+if ("{{mNumber2}}" == "MATCH") {
+    document.getElementById("match2").innerHTML = '<b style="color:red">{{mNumber2}}</b>';
+    document.getElementById("match2C").style.color = 'red';
+} else {
+    document.getElementById("match2").innerHTML = "<b>{{mNumber2}}</b>";
+}
+if ("{{mNumber3}}" == "MATCH") {
+    document.getElementById("match3").innerHTML = '<b style="color:red">{{mNumber3}}</b>';
+    document.getElementById("match3C").style.color = 'red';
+} else {
+    document.getElementById("match3").innerHTML = '<b>{{mNumber3}}</b>';
+}
+
+// Update the count down every 1/2 second
+var end = new Date().getTime()+65000;
+var x = setInterval(function() {
+
+  var now = new Date().getTime(); // Get today's date and time
+  var distance = end - now; // Find the distance between now and the count down date
+  var seconds = Math.floor((distance / 1000)); // Time calculations for days, hours, minutes and seconds
+  document.getElementById("demo").innerHTML = seconds + "s "; // Output the result in an element with id="demo"
+    
+  // If the count down is over, write some text 
+  if (distance <= 1) {
+    clearInterval(x);
+    document.getElementById("value_button").click();
+  }
+}, 200);
+</script>
+{% endblock %}

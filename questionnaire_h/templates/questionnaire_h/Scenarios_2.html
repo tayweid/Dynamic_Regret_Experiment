@@ -1,0 +1,133 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Questionnaire
+{% endblock %}
+
+{% block content %}
+
+<p><b> Please consider the following <i>variations</i> of the scenarios. </b></p>
+
+<div class="card well well-lg instructions">
+<table style="width:100%">
+    <tr><p> <b>(1')</b> Suppose lobbyists convince a country's government officials to implement
+        a change to the tax system, which allows wealthy individuals and corporations
+        to completely avoid paying taxes. The government has the power to implement the change
+        without a vote (referendum) from the country's citizens. Once the change is in place,
+        how fair or unfair is it for wealthy individuals and corporations to use the resulting
+        loophole to avoid paying any taxes?
+    </p></tr>
+    <tr>
+        {% for o in options %}
+            <th style="font-size:75%" align="center" width="9.3%"> {{ o }} </th>
+        {% endfor %}
+    </tr>
+    <tr align="center" class="formfield">
+        <td><input type="radio" name="{{ scenario_1 }}" value="1" required></td>
+        <td><input type="radio" name="{{ scenario_1 }}" value="2" required></td>
+        <td><input type="radio" name="{{ scenario_1 }}" value="3" required></td>
+        <td><input type="radio" name="{{ scenario_1 }}" value="4" required></td>
+        <td><input type="radio" name="{{ scenario_1 }}" value="5" required></td>
+        <td><input type="radio" name="{{ scenario_1 }}" value="6" required></td>
+        <td><input type="radio" name="{{ scenario_1 }}" value="7" required></td>
+        <td><input type="radio" name="{{ scenario_1 }}" value="8" required></td>
+        <td><input type="radio" name="{{ scenario_1 }}" value="9" required></td>
+        <td><input type="radio" name="{{ scenario_1 }}" value="10" required></td>
+        <td><input type="radio" name="{{ scenario_1 }}" value="11" required></td>
+    </tr>
+</table>
+</div>
+
+<div class="card well well-lg instructions">
+<table style="width:100%">
+    <tr><p> <b>(2')</b> Suppose someone lives in a high crime neighborhood. They have an
+        annual income of $45,000 and zero wealth or debt. Suppose there are home security
+        systems available, but they are very expensive and the homeowner doesn't have the money
+        to afford one. One day when they are away burglars break into the home and steal all of
+        the valuables in the house. How fair or unfair is it that the homeowner lost their
+        valuables?
+    </p></tr>
+    <tr>
+        {% for o in options %}
+            <th style="font-size:75%" align="center" width="9.3%"> {{ o }} </th>
+        {% endfor %}
+    </tr>
+    <tr align="center" class="formfield">
+        <td><input type="radio" name="{{ scenario_2 }}" value="1" required></td>
+        <td><input type="radio" name="{{ scenario_2 }}" value="2" required></td>
+        <td><input type="radio" name="{{ scenario_2 }}" value="3" required></td>
+        <td><input type="radio" name="{{ scenario_2 }}" value="4" required></td>
+        <td><input type="radio" name="{{ scenario_2 }}" value="5" required></td>
+        <td><input type="radio" name="{{ scenario_2 }}" value="6" required></td>
+        <td><input type="radio" name="{{ scenario_2 }}" value="7" required></td>
+        <td><input type="radio" name="{{ scenario_2 }}" value="8" required></td>
+        <td><input type="radio" name="{{ scenario_2 }}" value="9" required></td>
+        <td><input type="radio" name="{{ scenario_2 }}" value="10" required></td>
+        <td><input type="radio" name="{{ scenario_2 }}" value="11" required></td>
+    </tr>
+</table>
+</div>
+
+<div class="card well well-lg instructions">
+<table style="width:100%">
+    <tr><p> <b>(3')</b> Suppose a homeowner earns $100,000 per year and has no wealth
+        or debt. They need a new driveway, and there is only one contractor in town
+        who can provide a new driveway. The homeowner contacts the contractor and makes
+        clear they will pay any price the contractor quotes. How fair or unfair is
+        it for the contractor to charge a higher than normal price for the driveway?
+    </p></tr>
+    <tr>
+        {% for o in options %}
+            <th style="font-size:75%" align="center" width="9.3%"> {{ o }} </th>
+        {% endfor %}
+    </tr>
+    <tr align="center" class="formfield">
+        <td><input type="radio" name="{{ scenario_3 }}" value="1" required></td>
+        <td><input type="radio" name="{{ scenario_3 }}" value="2" required></td>
+        <td><input type="radio" name="{{ scenario_3 }}" value="3" required></td>
+        <td><input type="radio" name="{{ scenario_3 }}" value="4" required></td>
+        <td><input type="radio" name="{{ scenario_3 }}" value="5" required></td>
+        <td><input type="radio" name="{{ scenario_3 }}" value="6" required></td>
+        <td><input type="radio" name="{{ scenario_3 }}" value="7" required></td>
+        <td><input type="radio" name="{{ scenario_3 }}" value="8" required></td>
+        <td><input type="radio" name="{{ scenario_3 }}" value="9" required></td>
+        <td><input type="radio" name="{{ scenario_3 }}" value="10" required></td>
+        <td><input type="radio" name="{{ scenario_3 }}" value="11" required></td>
+    </tr>
+</table>
+</div>
+
+<div class="card well well-lg instructions">
+<table style="width:100%">
+    <tr><p> <b>(4')</b> Suppose that some cosmetics companies put potentially harmful
+        chemicals in their makeup products because this lowers costs, while other
+        cosmetics companies do not use such chemicals. Suppose there is no way for
+        consumers to do research and find out which companies use the toxic chemicals
+        and which do not. How fair or unfair is it for companies to be putting toxic
+        chemicals in their makeup products?
+    </p></tr>
+    <tr>
+        {% for o in options %}
+            <th style="font-size:75%" align="center" width="9.3%"> {{ o }} </th>
+        {% endfor %}
+    </tr>
+    <tr align="center" class="formfield">
+        <td><input type="radio" name="{{ scenario_4 }}" value="1" required></td>
+        <td><input type="radio" name="{{ scenario_4 }}" value="2" required></td>
+        <td><input type="radio" name="{{ scenario_4 }}" value="3" required></td>
+        <td><input type="radio" name="{{ scenario_4 }}" value="4" required></td>
+        <td><input type="radio" name="{{ scenario_4 }}" value="5" required></td>
+        <td><input type="radio" name="{{ scenario_4 }}" value="6" required></td>
+        <td><input type="radio" name="{{ scenario_4 }}" value="7" required></td>
+        <td><input type="radio" name="{{ scenario_4 }}" value="8" required></td>
+        <td><input type="radio" name="{{ scenario_4 }}" value="9" required></td>
+        <td><input type="radio" name="{{ scenario_4 }}" value="10" required></td>
+        <td><input type="radio" name="{{ scenario_4 }}" value="11" required></td>
+    </tr>
+</table>
+</div>
+
+<center style="margin-top:2.55cm;"> {% next_button %} </center>
+
+{% endblock %}

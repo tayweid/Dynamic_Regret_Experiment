@@ -1,0 +1,93 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'global/matrix.css' %}" />
+
+    <style>
+        .highlight-row-on-hover:hover td {
+            background-color: #fcf8e3;
+        }
+        .red {background-color: #f66666;}
+        
+
+    </style>
+
+{% endblock %}
+
+{% block content %}
+<div style="text-align: center">
+    <p> Please answer the following questions about the valuation mechanism. </p>
+    <p> You must answer both questions correctly before proceeding to the next page. </p>
+</div>
+<br><br>
+<div align="center">
+    <div style="padding: 50px; text-align: center" class="card bg-light" > 
+        <p> Suppose you selected a value of <b>$0.55</b>. </p>
+        <br>
+        <p> Enter an offer $X that would lead you to enter the lottery: <input placeholder="$X" id="enterQ"> <i><b id="enterQ_error"></b></i> </p>
+        <p> Enter an offer $X that would lead you to accept the offer:  <input placeholder="$X" id="acceptQ"> <i><b id="acceptQ_error"></b></i> </p>
+        <br>
+    </div>
+    <br>
+    <div id="confirmButton">
+        <button class="btn btn-primary" style="border-color:red; background-color:red" type="button" onclick="myFunction()">Confirm</button>
+    </div>
+    <div id="nextButton">
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+function myFunction() {
+  var enterQ, acceptQ, text, text_color, sub_color;
+
+  // Enter the Lottery
+  enterQ = document.getElementById("enterQ").value;
+  if ( isNaN(enterQ) || (enterQ > 0 && enterQ < 0.55) ) {
+    text = "";
+    text_color = "green";
+    sub_color = "green";
+  } else {
+    text = "Try again";
+    text_color = "red";
+    sub_color = "red";
+  }
+  document.getElementById("enterQ_error").innerHTML = text;
+  document.getElementById("enterQ_error").style.color = text_color;
+  document.getElementById("enterQ").style.borderColor = sub_color;
+  document.getElementById("enterQ").style.borderRadius = "5px";
+  //document.getElementById("enterQ").style.color = text_color;
+
+  // Accept the Offer
+  acceptQ = document.getElementById("acceptQ").value;
+  if ( isNaN(acceptQ) || (acceptQ <= 1 && acceptQ > 0.55)) {
+    text = "";
+    text_color = "green";
+    sub_color = "green";
+  } else {
+    text = "Try again";
+    text_color = "red";
+    sub_color = "red";
+  }
+  document.getElementById("acceptQ_error").innerHTML = text;
+  document.getElementById("acceptQ_error").style.color = text_color;
+  document.getElementById("acceptQ").style.borderColor = sub_color;
+  document.getElementById("acceptQ").style.borderRadius = "5px";
+  //document.getElementById("acceptQ").style.color = text_color;
+    
+  // Next Button
+  enterQ = document.getElementById("enterQ").value;
+  if ( isNaN(enterQ) || (enterQ > 0 && enterQ < 0.55) ) {
+      // Accept the Offer
+      if ( isNaN(acceptQ) || (acceptQ <= 1 && acceptQ > 0.55)) {
+        document.getElementById("nextButton").innerHTML = '<button class="btn btn-primary" style="border-color:red; background-color:red;">Next</button>';
+        document.getElementById("confirmButton").style.display = "none";
+      }
+  }
+}
+
+</script>
+{% endblock %}
