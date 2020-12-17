@@ -11,7 +11,8 @@ MAIN REMAINING ISSUES
 -Try it with dropbox
 -Treatments
 -Screenshots
-
+-Quiz should include 0 as a valid answer
+-ValueChoice uses zero as initial value_h, should be 0.01
 
 -Does the randomization need to be without replacement?
 -Are the numbers different per participant?

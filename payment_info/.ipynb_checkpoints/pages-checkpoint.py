@@ -20,12 +20,5 @@ class PaymentInfo(Page):
             'total_payoff': self.participant.payoff,
             'redemption_code': self.participant.label,
         }
-    
-class ThankYou(Page):
-    def vars_for_template(self):
-        return {
-            'redemption_code': self.participant.label,
-        }
 
-page_sequence = [PaymentInfo,
-                ThankYou]
+page_sequence = [PaymentInfo]
