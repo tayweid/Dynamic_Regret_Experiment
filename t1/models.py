@@ -3,7 +3,6 @@ from otree.api import (
     Currency as c, currency_range
 )
 import random
-import numpy as np
 
 doc = """
 MAIN REMAINING ISSUES
@@ -33,7 +32,7 @@ class Constants(BaseConstants):
 
 class Subsession(BaseSubsession):
     def creating_session(self):
-        for p in self.session.get_participants():            
+        for p in self.session.get_participants():
             p.label = str(random.randint(10000,99999))
 
 class Group(BaseGroup):
