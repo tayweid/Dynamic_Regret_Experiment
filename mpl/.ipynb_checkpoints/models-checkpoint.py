@@ -4,7 +4,6 @@ from otree.api import (
 )
 #from mpl import *
 import random
-import numpy as np
 from random import randrange
 
 
